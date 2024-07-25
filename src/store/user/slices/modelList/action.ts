@@ -101,6 +101,9 @@ export const createModelListSlice: StateCreator<
       const openrouter = draft.find((d) => d.id === ModelProvider.OpenRouter);
       if (openrouter) openrouter.chatModels = mergeModels('openrouter', openrouter.chatModels);
 
+      const groq = draft.find((d) => d.id === ModelProvider.Groq);
+      if (groq) groq.chatModels = mergeModels('groq', groq.chatModels);
+
       const togetherai = draft.find((d) => d.id === ModelProvider.TogetherAI);
       if (togetherai) togetherai.chatModels = mergeModels('togetherai', togetherai.chatModels);
     });

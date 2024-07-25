@@ -1,6 +1,7 @@
 import { AgentRuntimeErrorType } from '../error';
 import { ModelProvider } from '../types';
 import { LobeOpenAICompatibleFactory } from '../utils/openaiCompatibleFactory';
+import { GroqModelCard } from './type';
 
 export const LobeGroq = LobeOpenAICompatibleFactory({
   baseURL: 'https://api.groq.com/openai/v1',
@@ -20,6 +21,19 @@ export const LobeGroq = LobeOpenAICompatibleFactory({
   },
   debug: {
     chatCompletion: () => process.env.DEBUG_GROQ_CHAT_COMPLETION === '1',
+  },
+  models: {
+    transformModel: (m) => {
+      const model = m as unknown as GroqModelCard;
+      return {
+        description: model.id,
+        displayName: model.id,
+        enabled: model.active,
+        functionCall: model.id.toLowerCase().includes('tool-use'),
+        id: model.id,
+        tokens: model.context_window,
+      };
+    },
   },
   provider: ModelProvider.Groq,
 });
